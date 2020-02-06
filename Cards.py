@@ -8,7 +8,7 @@ class Cards:
         self.deck = []
         for suite in range(self.numSuits):
             for card in range(2, self.numCards + 2):
-                self.deck.append(tuple([suite, card]))
+                self.deck.append(tuple([card, suite]))
         random.shuffle(self.deck)
 
     def printDeck(self):
