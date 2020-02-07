@@ -12,8 +12,20 @@ class War:
         self.playerB = Player(playerBcards)
         self.numDrawCards = self.playerA.numDrawCards
         self.numMapping = {11: "Jack", 12: "Queen", 13: "King", 14: "Ace"}
-        # self.playerA.sets = [(5,1)]
-        # self.playerB.sets = [(5, 0), (7, 2)]
+
+        # test cases (uncomment below lines for testing different scenarios)
+        # 1. start war and win with lesser value card
+        # self.playerA.sets = [(5, "Spades"), (2, "Hearts"), (3, "Clubs"), (4, "Diamonds"), (6, "Spades")]
+        # self.playerB.sets = [(5, "Diamonds"), (7, "Hearts"), (2, "Clubs"), (3, "Hearts"), (5, "Clubs")]
+        # 2. start war and draw
+        # self.playerA.sets = [(5, "Spades"), (2, "Hearts"), (3, "Clubs"), (4, "Diamonds"), (6, "Spades")]
+        # self.playerB.sets = [(5, "Diamonds"), (7, "Hearts"), (2, "Clubs"), (3, "Hearts"), (6, "Clubs")]
+        # 3. start war and loss due to lack of cards
+        # self.playerA.sets = [(5, "Spades"), (2, "Hearts"), (3, "Clubs"), (4, "Diamonds"), (6, "Spades")]
+        # self.playerB.sets = [(5, "Diamonds"), (7, "Hearts"), (2, "Clubs"), (3, "Hearts")]
+        # 4. win due to greater value
+        # self.playerA.sets = [(4, "Spades"), (2, "Hearts"), (3, "Clubs"), (4, "Diamonds"), (6, "Spades")]
+        # self.playerB.sets = [(5, "Diamonds"), (7, "Hearts"), (2, "Clubs"), (3, "Hearts"), (9, "Clubs")]
 
     def start_game(self):
         """
@@ -24,7 +36,7 @@ class War:
         2. the player who looses his cards first wins
         3. each player draws one card, who ever has bigger value gets both cards
         4. if the value of the cards drawn are same, war starts
-        5. In war, each player puts 3 cards down from their decks and another face-up (to speed up the game)
+        5. In war, each player puts 3 cards down from their decks and another face-up (to speed up the game, I choose 3)
         6. if the values on the face-up cards are same, war continues, else who ever has larger value gets all cards
         7. if the player doesn't have enough cards to start war, he looses
 
@@ -36,9 +48,9 @@ class War:
 
         :return: None
         """
-        round = 1  # represents the round players are at right now
-        while self.playerA.cardsLeft() and self.playerB.cardsLeft():
-            print("XXXXXXXX round - " + str(round) + " XXXXXXXX")
+        roundNumber = 1  # represents the round players are at right now
+        while self.playerA.cardsLeft() and self.playerB.cardsLeft():  # rule number 1
+            print("XXXXXXXXXXXXXXXXXXXXXXXX round - " + str(roundNumber) + " XXXXXXXXXXXXXXXXXXXXXXXX")
             playerAcard = self.playerA.drawCard()
             playerBcard = self.playerB.drawCard()
             numA = playerAcard[0]
@@ -50,9 +62,9 @@ class War:
             print("player A draws " + str(numA) + " of " + playerAcard[1])
             print("player B draws " + str(numB) + " of " + playerBcard[1])
             if playerAcard[0] == playerBcard[0]:  # this is the draw scenario when the war starts
-                print("both cars are equal, war starts")
-                numA = self.playerA.startWar(playerAcard)
-                numB = self.playerB.startWar(playerBcard)
+                print("both cards are equal, war starts")
+                numA = self.playerA.startWar(playerAcard)  # number of cards left with player A
+                numB = self.playerB.startWar(playerBcard)  # number of cards left with player B
                 if numB < self.numDrawCards and numA < self.numDrawCards:  # assumption number 1
                     print("game Draw")
                     return
@@ -77,13 +89,13 @@ class War:
                 self.playerA.resetHand()  # clear cards used for war
                 self.playerB.resetHand()  # clear cards used for war
             # after each round, show number of cards left with each player
-            print("Player A left with: " + str(len(self.playerA.sets)) + " left")
-            print("Player B left with: " + str(len(self.playerB.sets)) + " left")
+            print("Player A left with: " + str(len(self.playerA.sets)) + " cards")
+            print("Player B left with: " + str(len(self.playerB.sets)) + " cards")
             if len(self.playerB.sets) is 0:  # rule number 2
                 print("player B wins")
             if len(self.playerA.sets) is 0:  # rule number 2
                 print("player A wins")
-            round += 1  # go to the next round
+            roundNumber += 1  # go to the next round
 
 
 if __name__ == "__main__":
